@@ -1,0 +1,11 @@
+POST http://127.0.0.1:8000/api/token/ HTTP/1.1
+Content-Type: application/json
+
+{
+    "username": "admin",
+    "password": "admin"
+}
+
+###
+
+GET http://127.0.0.1:8000/top-ten-best-sellers/ HTTP/1.1
