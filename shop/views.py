@@ -11,18 +11,25 @@ class TopTenBestSellerProduct(APIView):
     @auto_cache(key_prefix="shop", timeout=3600)
     def get(self, request):
 
-        from_date = datetime.now() - timedelta(days=30)
+        # time.sleep(2)
+        # cache_key = f"shop:{key}"
+        cache_key = ''
+        # print(cache.)
+        top_products = cache.get('shop:shop')
+
+        if top_products is None:
+            from_date = datetime.now() - timedelta(days=30)
             
-        top_products = Product.objects.filter(
-            orderitem__order__order_date__gte=from_date,
-            orderitem__order__status__in=['delivered', 'shipped']
-        ).annotate(
-            total_sold=Sum('orderitem__quantity'),
-            total_revenue=Sum(F('orderitem__quantity') * F('orderitem__price')),
-            order_count=Count('orderitem__order', distinct=True)
-        ).filter(
-            total_sold__isnull=False
-        ).order_by('-total_sold')[:10]
+            top_products = Product.objects.filter(
+                orderitem__order__order_date__gte=from_date,
+                orderitem__order__status__in=['delivered', 'shipped']
+            ).annotate(
+                total_sold=Sum('orderitem__quantity'),
+                total_revenue=Sum(F('orderitem__quantity') * F('orderitem__price')),
+                order_count=Count('orderitem__order', distinct=True)
+            ).filter(
+                total_sold__isnull=False
+            ).order_by('-total_sold')[:10]
         
         serializer = TopSellingProductSerializer(top_products, many=True)
 

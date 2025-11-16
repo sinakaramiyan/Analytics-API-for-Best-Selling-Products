@@ -11,7 +11,7 @@ def test_redis_connection():
     """Test basic Redis connection"""
     print("🔍 Testing Redis Connection...")
     try:
-        r = redis.Redis(host='localhost', port=6379, db=0)
+        r = redis.Redis(host='redis', port=6379, db=0)
         response = r.ping()
         print("✅ Redis server is running", response)
         return True
@@ -95,7 +95,7 @@ def check_redis_info():
     """Display Redis server information"""
     print("\n📊 Redis Server Information...")
     try:
-        r = redis.Redis(host='localhost', port=6379, db=0)
+        r = redis.Redis(host='redis', port=6379, db=0)
         info = r.info()
         
         print(f"Redis Version: {info['redis_version']}")
@@ -108,7 +108,7 @@ def check_redis_info():
 
 def view_all_keys():
     """View all keys in Redis"""
-    r = redis.Redis(host='localhost', port=6379, db=0)
+    r = redis.Redis(host='redis', port=6379, db=0)
     print(r)
     keys = r.keys('*')
     print("All Keys:")

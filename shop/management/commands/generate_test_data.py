@@ -7,7 +7,16 @@ class Command(BaseCommand):
     help = 'Generate test data'
 
     def handle(self, *args, **options):
-        # create products
+        # Clear existing data (optional - be careful in production!)
+        self.stdout.write('Clearing existing data...')
+        OrderItem.objects.all().delete()
+        Order.objects.all().delete()
+        Customer.objects.all().delete()
+        User.objects.filter(username__startswith='user').delete()
+        Product.objects.all().delete()
+
+        # Create products
+        self.stdout.write('Creating products...')
         products = []
         for i in range(1000):
             product = Product.objects.create(
@@ -16,25 +25,38 @@ class Command(BaseCommand):
                 price=random.uniform(10, 500),
             )
             products.append(product)
-
-        # create customers
+            if (i + 1) % 100 == 0:
+                self.stdout.write(f'Created {i + 1} products...')
+        
+        # Create customers
+        self.stdout.write('Creating customers...')
         customers = []
         for i in range(50):
-            user = User.objects.create_user(
+            user, created = User.objects.get_or_create(
                 username=f'user{i}',
-                password='testpass'
+                defaults={
+                    'password': 'testpass123',
+                    'email': f'user{i}@example.com'
+                }
             )
-            customer = Customer.objects.create(user=user)
+            if created:
+                user.set_password('testpass123')
+                user.save()
+            
+            customer, cust_created = Customer.objects.get_or_create(user=user)
             customers.append(customer)
+            if (i + 1) % 10 == 0:
+                self.stdout.write(f'Created {i + 1} customers...')
 
-        # create orders
+        # Create orders
+        self.stdout.write('Creating orders...')
         for i in range(100000):
             order = Order.objects.create(
                 customer=random.choice(customers),
                 status=random.choice(['pending', 'processing', 'shipped', 'delivered'])
             )
             
-            # add item to orders
+            # Add items to orders
             num_items = random.randint(1, 4)
             selected_products = random.sample(products, num_items)
             
@@ -52,4 +74,9 @@ class Command(BaseCommand):
             order.total_amount = total_amount
             order.save()
 
-        self.stdout.write('Test data generated successfully!')
+            if (i + 1) % 10000 == 0:
+                self.stdout.write(f'Created {i + 1} orders...')
+
+        self.stdout.write(
+            self.style.SUCCESS('Test data generated successfully!')
+        )
