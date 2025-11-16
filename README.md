@@ -26,8 +26,8 @@ git clone https://github.com/sinakaramiyan/Analytics-API-for-Best-Selling-Produc
 cd Analytics_API
 ```
 
-### 2. Clone the Repository
-
+### 2. Environment Setup
+Create a .env file in the project root (optional - environment variables are set in docker-compose):
 ```env
 # Database
 DB_NAME=analytics_db
