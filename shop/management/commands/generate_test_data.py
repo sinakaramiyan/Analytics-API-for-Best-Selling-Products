@@ -43,7 +43,7 @@ class Command(BaseCommand):
                 user.set_password('testpass123')
                 user.save()
             
-            customer, cust_created = Customer.objects.get_or_create(user=user)
+            customer = Customer.objects.get_or_create(user=user)
             customers.append(customer)
             if (i + 1) % 10 == 0:
                 self.stdout.write(f'Created {i + 1} customers...')
