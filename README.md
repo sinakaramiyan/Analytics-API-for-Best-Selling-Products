@@ -1,6 +1,6 @@
-# Django REST Framework with Redis & Celery
+# 10 bestselling products
 
-A Dockerized Django REST Framework API with Redis caching and Celery for asynchronous task processing.
+A Dockerized Django REST Framework API to serve last month's top 10 bestselling products, implementing Redis caching and Celery workers for optimized performance.
 
 ## 🚀 Features
 
@@ -65,7 +65,11 @@ docker-compose exec web python manage.py migrate
 ```bash
 docker-compose exec web python manage.py createsuperuser
 ```
+### 6. Initialize with test data
 
+```bash
+docker-compose exec web python manage.py generate_test_data
+```
 ## 🔧 Services
 
 | Service         | Port  | Description                     |
