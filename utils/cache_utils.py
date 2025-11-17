@@ -58,6 +58,25 @@ class RedisCacheManager:
             data = data_func()
             self.set_data(key, data, timeout)
         return data
+    
+    def cache_analytics(self, key, data, timeout=86400): 
+        """Cache shop analytics data"""
+        try:
+            full_key = self._get_full_key(key)
+            cache.set(full_key, data, timeout)
+            logger.info(f"Cached analytics data: {full_key}")
+            return True
+        except Exception as e:
+            logger.error(f"Error caching data: {e}")
+            return False
+    
+    def get_or_set_analytics(self, key, data_func, timeout=86400):
+        """Get analytics data or set it using provided function"""
+        data = self.get_data(key)
+        if data is None:
+            data = data_func()
+            self.cache_analytics(key, data, timeout)
+        return data
 
 # Global cache manager instance
 cache_manager = RedisCacheManager(key_prefix="shop")

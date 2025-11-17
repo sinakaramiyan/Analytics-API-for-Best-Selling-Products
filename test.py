@@ -61,7 +61,7 @@ def test_shop_cache():
     """Test your shop-specific cache configuration"""
     print("\n🔍 Testing Shop Cache Configuration...")
     try:
-        from shop.utils.cache_utils import shop_cache
+        from utils.cache_utils import cache_manager
         
         test_data = {
             'best_sellers': ['product_a', 'product_b', 'product_c'],
@@ -70,18 +70,18 @@ def test_shop_cache():
         }
         
         # Test cache set
-        success = shop_cache.cache_analytics('test_analytics', test_data, 300)
+        success = cache_manager.cache_analytics('test_analytics', test_data, 300)
         if not success:
             print("❌ Failed to set shop cache")
             return False
         
         # Test cache get
-        retrieved = shop_cache.get_analytics('test_analytics')
+        retrieved = cache_manager.get_data('test_analytics')
         if retrieved and retrieved['best_sellers'] == test_data['best_sellers']:
             print("✅ Shop cache utility is working")
             
             # Cleanup
-            shop_cache.delete_data('test_analytics')
+            cache_manager.delete_data('test_analytics')
             return True
         else:
             print("❌ Shop cache retrieval failed")
@@ -106,15 +106,6 @@ def check_redis_info():
     except Exception as e:
         print(f"❌ Could not get Redis info: {e}")
 
-def view_all_keys():
-    """View all keys in Redis"""
-    r = redis.Redis(host='redis', port=6379, db=0)
-    print(r)
-    keys = r.keys('*')
-    print("All Keys:")
-    for key in keys:
-        key_type = r.type(key)
-        print(f"- {key} (Type: {key_type})")
 
 if __name__ == "__main__":
     print("🚀 Starting Redis Diagnostic Tests...\n")
@@ -137,5 +128,3 @@ if __name__ == "__main__":
         print("🎉 All tests passed! Redis is working correctly.")
     else:
         print("❌ Some tests failed. Check the issues above.")
-
-    view_all_keys()

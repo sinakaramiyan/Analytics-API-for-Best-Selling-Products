@@ -107,7 +107,7 @@ docker-compose exec celery-beat celery -A config beat status
 
 ```bash
 # Test Redis connections and cache
-docker-compose exec web python test_redis.py
+docker-compose exec web python test.py
 ```
 
 ## 🗄️ Database Operations

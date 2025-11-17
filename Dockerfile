@@ -33,4 +33,4 @@ EXPOSE 8000
 RUN python manage.py collectstatic --noinput
 
 # Run entrypoint script
-CMD ["/app/entrypoint.sh"]
+CMD ["./entrypoint.sh"]
