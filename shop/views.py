@@ -10,11 +10,6 @@ import redis
 class TopTenBestSellerProduct(APIView):
     @auto_cache(key_prefix="shop", timeout=3600)
     def get(self, request):
-
-        # time.sleep(2)
-        # cache_key = f"shop:{key}"
-        cache_key = ''
-        # print(cache.)
         top_products = cache.get('shop:shop')
 
         if top_products is None:
