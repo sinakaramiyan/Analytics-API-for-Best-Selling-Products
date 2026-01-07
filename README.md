@@ -190,3 +190,41 @@ docker-compose up --build
 
   ## 📝 License
   This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+```
+Analytics_API
+├─ api.http
+├─ config
+│  ├─ asgi.py
+│  ├─ celery.py
+│  ├─ settings.py
+│  ├─ urls.py
+│  ├─ wsgi.py
+│  └─ __init__.py
+├─ docker-compose.yml
+├─ Dockerfile
+├─ entrypoint.sh
+├─ LICENSE
+├─ manage.py
+├─ README.md
+├─ requirements.txt
+├─ shop
+│  ├─ admin.py
+│  ├─ apps.py
+│  ├─ management
+│  │  └─ commands
+│  │     └─ generate_test_data.py
+│  ├─ models.py
+│  ├─ serializers.py
+│  ├─ tasks.py
+│  ├─ tests.py
+│  ├─ urls.py
+│  ├─ views.py
+│  └─ __init__.py
+├─ static
+├─ test.py
+└─ utils
+   ├─ cache_utils.py
+   └─ decorators.py
+
+```
